@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Omit} from "@reduxjs/toolkit/dist/tsHelpers";
 
-type Event = {
+export type Event = {
     title: string
     id: string
     total: number
@@ -14,7 +14,7 @@ const initialState: InitialState = [{
     title: 'Горнолыжка',
     id: 'some id',
     total: 1500,
-    addedDate: "2023-10-15",
+    addedDate: new Date().toString(),
 }]
 
 const slice = createSlice({

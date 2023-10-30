@@ -7,7 +7,7 @@ type Expense = {
     debt: number
 }
 
-type User = {
+export type User = {
     name: string
     id: string
     expenses: number[]

@@ -4,22 +4,26 @@ import {Ionicons} from "@expo/vector-icons";
 import {globalFontSize, globalStyles} from "../styles/global-styles";
 import {useNotification} from "react-native-internal-notification";
 import {MainProps} from "../types/navigation-types";
-import {useAppDispatcn} from "../hooks";
+import {useAppDispatcn, useAppSelector} from "../hooks";
+import {addEvent, Event} from "../store/events-slice";
+import 'react-native-get-random-values';
+import { v4 as uuid } from 'uuid';
 
 export const CreateEventsPage = ({navigation}: MainProps) => {
     const dispatch = useAppDispatcn()
     const [value, setValue] = useState('')
     const [showInput, setShowInput] = useState(false)
-    const [events, setEvents] = useState<string[]>()
     const notification = useNotification();
+    const events = useAppSelector<Event[]>(state => state.events)
 
-    const addEvent = (event: string) => {
-        if (event.length < 3) {
+
+    const addEventHandler = (title: string) => {
+        if (title.length < 3) {
             shortNameEventNotification()
             return
         }
-        const updateEvents = [...(events ?? []), event]
-        setEvents(updateEvents)
+        const id = uuid()
+        dispatch(addEvent({title, id, addedDate: new Date().toString()}))
         setShowInput(false)
         setValue('')
     }
@@ -40,7 +44,7 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
                         {events?.map((e, index) => (
                             <View style={styles.eventRow} key={index}>
                                 <Text style={styles.eventName}
-                                      onPress={() => navigation.navigate('EventPage')}>{e}</Text>
+                                      onPress={() => navigation.navigate('EventPage', {eventId: e.id, title: e.title })}>{e.title}</Text>
                             </View>
                         ))}
                     </View>
@@ -49,7 +53,7 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
                             ? <>
                                 <TextInput value={value} onChangeText={setValue}
                                            style={[globalStyles.border, styles.input]} autoFocus/>
-                                <Button title={'Сохранить'} onPress={() => addEvent(value)}/>
+                                <Button title={'Сохранить'} onPress={() => addEventHandler(value)}/>
                             </>
                             : <Button title={'Добавить событие'} onPress={() => setShowInput(prevState => !prevState)}/>
                         }
