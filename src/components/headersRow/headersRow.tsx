@@ -6,9 +6,8 @@ import {colors} from "../../styles/global-styles";
 export const HeadersRow = () => {
   return (
     <View style={[stylesUserRow.row, stylesHeader.row]}>
-      <View style={[stylesUserRow.segment]}>
+      <View style={[stylesUserRow.segment, stylesHeader.opacityBorder]}>
         <Text style={[stylesUserRow.text]}>
-
         </Text>
       </View>
       <View style={[stylesUserRow.segment, stylesHeader.view]}>
@@ -25,7 +24,7 @@ export const HeadersRow = () => {
   );
 };
 
-export const stylesHeader = StyleSheet.create({
+const stylesHeader = StyleSheet.create({
   row: {
     paddingBottom: 10
   },
@@ -34,5 +33,8 @@ export const stylesHeader = StyleSheet.create({
   },
   text: {
     color: colors.lightGrey
+  },
+  opacityBorder: {
+    borderColor: 'rgba(0, 0, 0, 0)'
   }
 })
