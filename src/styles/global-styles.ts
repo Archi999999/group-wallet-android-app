@@ -13,5 +13,11 @@ export const globalStyles = StyleSheet.create({
         borderStyle: "solid",
         borderWidth: 2,
         borderColor: 'blue'
-    }
+    },
+
 })
+
+export const colors= {
+  grey: '#373f3d',
+  lightGrey: '#7ca491'
+}

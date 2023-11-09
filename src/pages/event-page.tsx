@@ -2,12 +2,14 @@ import React, {useCallback, useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import {globalStyles} from "../styles/global-styles";
 import {EventProps} from "../types/navigation-types";
-import {useAppDispatcn, useAppSelector} from "../hooks";
+import {useAppDispatch, useAppSelector} from "../hooks";
 import {addUser, User} from "../store/users-slice";
 import {Ionicons} from "@expo/vector-icons";
 import {useNotification} from "react-native-internal-notification";
 // import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
+import {UserRow} from "../components/userRow/userRow";
+import {HeadersRow} from "../components/headersRow/headersRow";
 
 export const EventPage = (
     {
@@ -16,7 +18,7 @@ export const EventPage = (
     const [value, setValue] = useState('')
     const [showInput, setShowInput] = useState(false)
     const notification = useNotification();
-    const dispatch = useAppDispatcn()
+    const dispatch = useAppDispatch()
 
     const eventId = route.params.eventId
 
@@ -46,10 +48,11 @@ export const EventPage = (
         <TouchableWithoutFeedback onPress={onBlur}>
             <View style={[globalStyles.container, styles.container]}>
                 <Text style={[styles.h1]}> {route.params.title} </Text>
-                <View style={[styles.usersDiv]}>
-                {users.map((u) => (
-                        <Text key={u.id} style={[styles.userRow]}>{u.name}</Text>
-                ))}
+                <View style={[styles.table]}>
+                  <HeadersRow />
+                  {users.map(u=>(
+                    <UserRow name={u.name} key={u.id} expenses={u.expenses} debts={u.debts}/>
+                  ))}
                 </View>
                 <View style={styles.addUser}>
                     {showInput
@@ -78,11 +81,11 @@ const styles = StyleSheet.create({
         // position: 'absolute',
         // top: 0,
     },
-    usersDiv: {
-        width: '100%',
+  table: {
+        // width: '100%',
         height: '50%',
-        paddingLeft: 20,
-        alignItems: 'flex-start',
+    marginRight: 10,
+        // alignItems: 'center',
         justifyContent: "flex-start",
     },
     userRow: {

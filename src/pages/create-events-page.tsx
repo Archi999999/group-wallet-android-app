@@ -4,13 +4,13 @@ import {Ionicons} from "@expo/vector-icons";
 import {globalFontSize, globalStyles} from "../styles/global-styles";
 import {useNotification} from "react-native-internal-notification";
 import {MainProps} from "../types/navigation-types";
-import {useAppDispatcn, useAppSelector} from "../hooks";
+import {useAppDispatch, useAppSelector} from "../hooks";
 import {addEvent, Event} from "../store/events-slice";
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
 export const CreateEventsPage = ({navigation}: MainProps) => {
-    const dispatch = useAppDispatcn()
+    const dispatch = useAppDispatch()
     const [value, setValue] = useState('')
     const [showInput, setShowInput] = useState(false)
     const notification = useNotification();
