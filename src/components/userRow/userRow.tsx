@@ -1,21 +1,19 @@
 import React, {FC, useState} from 'react';
-import {Button, Modal, Text, TouchableOpacity, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import {User} from "../../store/users-slice";
 import {stylesUserRow} from "./userRow.styles";
-import {MyModal} from "../myModal/myModal";
+import {AddExpenseModal} from "../addExpenseModal/addExpenseModal";
 
 type UserRowProps =
-  User
-  // & { onPress: (id: string) => void }
-
+  User & {userId: string, eventId: string}
 
 export const UserRow: FC<UserRowProps> = (
   {
     name,
     expenses,
     debts,
-    id,
-    // onPress,
+    userId,
+    eventId,
   }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const countExpenses = expenses.map(exp => exp.count)
@@ -28,32 +26,24 @@ export const UserRow: FC<UserRowProps> = (
     setModalVisible(true)
   }
 
-  const closeModal = () => {
-    setModalVisible(false);
-  }
-
   return (
     <View style={[stylesUserRow.row]}>
-      <View style={[stylesUserRow.name]}>
+      <View style={[stylesUserRow.cell, stylesUserRow.name]}>
         <Text style={[stylesUserRow.text]}>
           {name}
         </Text>
       </View>
-      <TouchableOpacity onPress={onPressHandler} style={[stylesUserRow.segment]}>
-        <View>
+      <TouchableOpacity onPress={onPressHandler} style={[stylesUserRow.cell]}>
           <Text style={[stylesUserRow.text]}>
             {summaExpenses}
           </Text>
-        </View>
       </TouchableOpacity>
-      <View style={[stylesUserRow.segment]}>
+      <View style={[stylesUserRow.cell]}>
         <Text style={[stylesUserRow.text]}>
           {summaDebts}
         </Text>
       </View>
-      <MyModal modalVisible={modalVisible} closeModal={closeModal} >
-        <View></View>
-      </MyModal>
+      <AddExpenseModal modalVisible={modalVisible} closeModal={setModalVisible} eventId={eventId} userId={userId}/>
     </View>
   );
 };

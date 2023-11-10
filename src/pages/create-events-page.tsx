@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import {globalFontSize, globalStyles} from "../styles/global-styles";
+import {largeFontSize, globalStyles, smallFontSize} from "../styles/global-styles";
 import {useNotification} from "react-native-internal-notification";
 import {MainProps} from "../types/navigation-types";
 import {useAppDispatch, useAppSelector} from "../hooks";
@@ -52,7 +52,7 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
                         {showInput
                             ? <>
                                 <TextInput value={value} onChangeText={setValue}
-                                           style={[globalStyles.border, styles.input]} autoFocus/>
+                                           style={[globalStyles.border, styles.input]} autoFocus onSubmitEditing={() => addEventHandler(value)}/>
                                 <Button title={'Сохранить'} onPress={() => addEventHandler(value)}/>
                             </>
                             : <Button title={'Добавить событие'} onPress={() => setShowInput(prevState => !prevState)}/>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
         width: 200,
-        fontSize: 20,
+        fontSize: smallFontSize,
         padding: 8,
         margin: 10,
     },
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     eventName: {
-        fontSize: 22,
+        fontSize: largeFontSize,
         color: 'white',
         marginRight: 10,
     },
     menuEventButton: {
-        fontSize: globalFontSize,
+        fontSize: largeFontSize,
         color: "white",
     },
 });

@@ -2,22 +2,25 @@ import React, {FC, ReactNode} from 'react';
 import {
   GestureResponderEvent,
   Modal,
-  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View, ViewStyle
 } from "react-native";
-import {colors} from "../../styles/global-styles";
+import {stylesModal} from "./myModal.styles";
 
 type Props = {
+  style?: ViewStyle
+  title: string
   modalVisible: boolean
-  closeModal: () => void
+  closeModal: (value: boolean) => void
   children: ReactNode
 }
 
 export const MyModal: FC<Props> = (
   {
+    style,
+    title,
     modalVisible,
     closeModal,
     children,
@@ -25,17 +28,17 @@ export const MyModal: FC<Props> = (
 ) => {
   const handlePressOutsideModal = (event:GestureResponderEvent) => {
     if (event.target === event.currentTarget) {
-      closeModal()
+      closeModal(false)
     }}
 
   return (
     <Modal visible={modalVisible} transparent animationType="fade">
       <TouchableWithoutFeedback onPress={handlePressOutsideModal}>
-        <View style={[stylesModal.modal]}>
+        <View style={[stylesModal.modal, style]}>
           <View style={[stylesModal.view]}>
             <View style={stylesModal.titleRow}>
-              <Text>Добавить Расход</Text>
-              <TouchableOpacity onPress={closeModal} style={[stylesModal.buttonClose]}>
+              <Text style={stylesModal.titleText}>{title}</Text>
+              <TouchableOpacity onPress={()=>closeModal(false)} style={[stylesModal.buttonClose]}>
                 <Text>X</Text>
               </TouchableOpacity>
             </View>
@@ -49,42 +52,4 @@ export const MyModal: FC<Props> = (
   );
 };
 
-const stylesModal = StyleSheet.create({
-  modal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  },
-  titleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingLeft: 20,
-    borderBottomColor: colors.lightGrey,
-    borderBottomWidth: 1,
-    borderStyle: "solid",
 
-  },
-  buttonClose: {
-    backgroundColor: colors.lightGrey,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 30,
-    width: 30,
-    borderRadius: 5,
-    borderTopRightRadius: 10,
-  },
-  view: {
-    width: '70%',
-    // height: 500,
-    backgroundColor: colors.white,
-    borderRadius: 10,
-  },
-  children: {
-    backgroundColor: colors.lightGrey,
-    width: '80%',
-    // height: '80%',
-    margin: 30,
-  },
-})

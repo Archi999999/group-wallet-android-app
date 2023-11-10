@@ -89,7 +89,7 @@ const initialState: InitialState = {
       ]
     },
     {
-      name: 'X',
+      name: 'Александр',
       id: 'idX',
       expenses: [
         {

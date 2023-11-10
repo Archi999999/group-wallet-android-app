@@ -1,21 +1,21 @@
 import React from 'react';
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, ViewStyle} from "react-native";
 import {stylesUserRow} from "../userRow/userRow.styles";
-import {colors} from "../../styles/global-styles";
+import {colors, smallFontSize} from "../../styles/global-styles";
 
-export const HeadersRow = () => {
+export const HeadersRow = (props: {style: ViewStyle}) => {
   return (
-    <View style={[stylesUserRow.row, stylesHeader.row]}>
-      <View style={[stylesUserRow.segment, stylesHeader.opacityBorder]}>
+    <View style={[stylesUserRow.row, stylesHeader.row, props.style]}>
+      <View style={[stylesUserRow.cell, stylesHeader.opacityBorder]}>
         <Text style={[stylesUserRow.text]}>
         </Text>
       </View>
-      <View style={[stylesUserRow.segment, stylesHeader.view]}>
+      <View style={[stylesUserRow.cell, stylesHeader.view]}>
         <Text style={[stylesUserRow.text, stylesHeader.text]}>
           расходы
         </Text>
       </View>
-      <View style={[stylesUserRow.segment, stylesHeader.view]}>
+      <View style={[stylesUserRow.cell, stylesHeader.view]}>
         <Text style={[stylesUserRow.text, stylesHeader.text]}>
           долг
         </Text>
@@ -29,10 +29,15 @@ const stylesHeader = StyleSheet.create({
     paddingBottom: 10
   },
   view: {
-    backgroundColor: colors.grey
+    backgroundColor: colors.grey,
+    paddingTop: 0,
+    alignItems: 'center',
   },
   text: {
-    color: colors.lightGrey
+    fontSize: smallFontSize,
+    color: colors.lightGrey,
+    // alignSelf: "center",
+    // justifyContent: 'center'
   },
   opacityBorder: {
     borderColor: 'rgba(0, 0, 0, 0)'
