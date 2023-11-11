@@ -20,6 +20,8 @@ export type User = {
   debts: Debt[]
 }
 
+export type ShortUser = Pick<User, 'name' | 'id'> & { exp: number }
+
 type InitialState = {
   [key: string]: User[]
 }
@@ -134,14 +136,33 @@ const slice = createSlice({
       const {eventId, userId: id} = action.payload
       state[eventId].filter(u => u.id !== id)
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addEvent, (state, action) => {
-        state[action.payload.id] = []
-      })
-  }
-})
+    addExpense(state, action: PayloadAction<{ eventId: string, expId: string, users: ShortUser[], title: string }>) {
+      const {expId, eventId, users, title} = action.payload
+      const allUsers = state[eventId]
+      users.forEach(({id, exp}) => {
+        const countDebt =  Math.round(exp / allUsers.length)
+        allUsers.forEach(u => {
+          if (u.id === id) {
+            u.expenses.push({id: expId, title, count: exp})
+          } else {
+            const debts = u.debts.find(debt => debt.id === id)
+            if (debts) {
+              debts.debt += countDebt
+            } else {
+              u.debts.push({id, debt: countDebt})
+            }
+          }
+        })
+        })
+      }
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(addEvent, (state, action) => {
+          state[action.payload.id] = []
+        })
+    }
+  })
 
-export const {removeUser, addUser} = slice.actions
+export const {removeUser, addUser, addExpense} = slice.actions
 export const usersReducer = slice.reducer;
