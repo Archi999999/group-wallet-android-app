@@ -4,7 +4,6 @@ import {mediumFontSize} from "../../styles/global-styles";
 export const stylesUserRow = StyleSheet.create({
   row: {
     flexDirection: "row",
-    // alignItems: "center",
   },
   cell: {
     paddingHorizontal: 5,
@@ -18,11 +17,6 @@ export const stylesUserRow = StyleSheet.create({
   },
   name: {
     alignItems: "baseline",
-    // flexBasis: "25%",
-    //   borderStyle: 'solid',
-    //   borderColor: 'black',
-    //   borderWidth: 1,
-    //   paddingHorizontal: 5,
   },
   text: {
     color: 'white',

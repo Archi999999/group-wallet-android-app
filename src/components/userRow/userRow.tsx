@@ -43,7 +43,7 @@ export const UserRow: FC<UserRowProps> = (
           {summaDebts}
         </Text>
       </View>
-      <AddExpenseModal modalVisible={modalVisible} closeModal={setModalVisible} eventId={eventId} userId={userId}/>
+      <AddExpenseModal modalVisible={modalVisible} closeModal={setModalVisible} eventId={eventId} user={{name, id: userId, exp: 0}}/>
     </View>
   );
 };
