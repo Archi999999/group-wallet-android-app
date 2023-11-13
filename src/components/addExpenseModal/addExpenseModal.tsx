@@ -1,11 +1,14 @@
 import React, {FC, useState} from 'react';
 import {MyModal} from "../myModal/myModal";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, View} from "react-native";
 import {addExpense, ShortUser} from "../../store/users-slice";
 import {colors, largeFontSize, smallFontSize} from "../../styles/global-styles";
 import {ShowUsersModal} from "../showUsersModal/showUsersModal";
 import {useAppDispatch} from "../../hooks";
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
+import {MyButton} from "../myButton/myButton";
+import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
+import {ExpenseComment} from "../expenseComment/expenseComment";
 
 type Props = {
   user: ShortUser
@@ -26,16 +29,13 @@ export const AddExpenseModal: FC<Props> = (
   const [showUsers, setShowUsers] = useState(false)
   const [users, setUsers] = useState<ShortUser[]>([user])
   const [title, setTitle] = useState('')
-
-  // function foundUser(state: RootState, userId: string) {
-  //   const foundUser = state.users[eventId].find(u => u.id === userId)
-  //   return foundUser ? foundUser : {} as User
-  // }
+  const [displayTitle, setDisplayTitle] = useState<'none' | 'flex'>('none')
 
   const addExp = () => {
     const expId = uuid()
     dispatch(addExpense({expId, users, eventId, title}))
     closeModal(false)
+    setDisplayTitle('none')
   }
 
   const addUserInModal = ({name, id}: ShortUser) => {
@@ -54,6 +54,7 @@ export const AddExpenseModal: FC<Props> = (
 
   const closeModalHandler = () => {
     setUsers([user])
+    setDisplayTitle('none')
     closeModal(false)
   }
 
@@ -62,23 +63,29 @@ export const AddExpenseModal: FC<Props> = (
       {users.map(u => (
         <View key={u.id} style={styleAddExpModal.userRow}>
           <Text style={styleAddExpModal.name}>{u.name}</Text>
-          <TextInput style={[styleAddExpModal.input]} keyboardType="numeric" onChangeText={(text)=>onChangeExp(u.id, text)}/>
+          <TextInput style={[styleAddExpModal.inputExp]} keyboardType="numeric" onChangeText={(text)=>onChangeExp(u.id, text)}/>
         </View>
       ))}
-      <TouchableOpacity onPress={() => setShowUsers(true)}>
-        <Text>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={addExp}>
-        <Text>ADD</Text>
-      </TouchableOpacity>
+      <View style={styleAddExpModal.buttons}>
+        <MyButton onPress={() => setShowUsers(true)} style={styleAddExpModal.buttonAddUser}>
+          <Feather name="user-plus" size={24} color={colors.white} />
+        </MyButton>
+        <MyButton onPress={()=>{setDisplayTitle(displayTitle==='flex'? 'none': 'flex')}} style={styleAddExpModal.buttonAddComment}>
+          <MaterialCommunityIcons name="comment-plus-outline" size={24} color={colors.white} />
+        </MyButton>
+        <MyButton onPress={addExp} style={styleAddExpModal.buttonSave}>
+          <Text style={styleAddExpModal.textSave} >Сохранить</Text>
+        </MyButton>
+      </View>
       <ShowUsersModal title={'Добавить пользователя'} showUsers={showUsers} closeModalUsers={closeModalUsers}
                       eventId={eventId} addUserInModal={addUserInModal} addedUsers={users}/>
+      <ExpenseComment style={{display: displayTitle}}/>
     </MyModal>
   );
 };
 
 
-const styleAddExpModal = StyleSheet.create({
+const styleAddExpModal= StyleSheet.create({
   userRow: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -86,17 +93,36 @@ const styleAddExpModal = StyleSheet.create({
     gap: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    marginBottom: 12,
   },
   name: {
     color: colors.white,
     fontSize: largeFontSize,
     flexShrink: 1,
   },
-  input: {
+  inputExp: {
     backgroundColor: colors.white,
     width: '50%',
     fontSize: smallFontSize,
     textAlign: "right",
 
-  }
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: "space-between"
+  },
+  buttonAddUser: {
+    width: 50,
+  },
+  buttonAddComment: {
+    width: 50,
+  },
+  buttonSave: {
+
+  },
+  textSave: {
+    color: colors.white,
+    fontSize: smallFontSize,
+  },
+
 })
