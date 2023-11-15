@@ -5,9 +5,11 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View, ViewStyle
+  View,
+  ViewStyle
 } from "react-native";
 import {stylesModal} from "./myModal.styles";
+import {Ionicons} from "@expo/vector-icons";
 
 type Props = {
   style?: ViewStyle
@@ -39,7 +41,7 @@ export const MyModal: FC<Props> = (
             <View style={stylesModal.titleRow}>
               <Text style={stylesModal.titleText}>{title}</Text>
               <TouchableOpacity onPress={()=>closeModal(false)} style={[stylesModal.buttonClose]}>
-                <Text>X</Text>
+                <Ionicons name="ios-close-sharp" size={24} color="black" />
               </TouchableOpacity>
             </View>
             <View style={stylesModal.children}>
@@ -51,5 +53,3 @@ export const MyModal: FC<Props> = (
     </Modal>
   );
 };
-
-

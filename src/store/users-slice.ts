@@ -2,8 +2,9 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {addEvent} from "./events-slice";
 import {Omit} from "@reduxjs/toolkit/dist/tsHelpers";
 
-type Debt = {
+export type Debt = {
   id: string
+  name: string
   debt: number
 }
 
@@ -51,10 +52,12 @@ const initialState: InitialState = {
       debts: [
         {
           id: 'id12',
+          name: 'Ivan',
           debt: 0,
         },
         {
           id: 'idX',
+          name: 'Александр',
           debt: 0,
         }
       ]
@@ -82,10 +85,12 @@ const initialState: InitialState = {
       debts: [
         {
           id: 'id',
+          name: 'Вася',
           debt: 200,
         },
         {
           id: 'idX',
+          name: 'Александр',
           debt: 0,
         },
       ]
@@ -113,10 +118,12 @@ const initialState: InitialState = {
       debts: [
         {
           id: 'id',
+          name: 'Вася',
           debt: 0,
         },
         {
           id: 'id12',
+          name: 'Ivan',
           debt: 0,
         },
       ]
@@ -139,7 +146,7 @@ const slice = createSlice({
     addExpense(state, action: PayloadAction<{ eventId: string, expId: string, users: ShortUser[], title: string }>) {
       const {expId, eventId, users, title} = action.payload
       const allUsers = state[eventId]
-      users.forEach(({id, exp}) => {
+      users.forEach(({id, exp, name}) => {
         const countDebt =  Math.round(exp / allUsers.length)
         allUsers.forEach(u => {
           if (u.id === id) {
@@ -149,7 +156,7 @@ const slice = createSlice({
             if (debts) {
               debts.debt += countDebt
             } else {
-              u.debts.push({id, debt: countDebt})
+              u.debts.push({id, name,  debt: countDebt})
             }
           }
         })

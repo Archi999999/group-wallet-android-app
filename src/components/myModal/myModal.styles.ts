@@ -16,6 +16,7 @@ export const stylesModal = StyleSheet.create({
     borderBottomColor: colors.lightGrey,
     borderBottomWidth: 1,
     borderStyle: "solid",
+    width: '100%',
   },
   titleText:{
     fontSize: smallFontSize,
@@ -33,10 +34,14 @@ export const stylesModal = StyleSheet.create({
     width: '70%',
     backgroundColor: colors.white,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   children: {
     backgroundColor: colors.lightGrey,
-    width: '80%',
+    width: '85%',
     margin: 30,
+    padding: 7,
+
   },
 })

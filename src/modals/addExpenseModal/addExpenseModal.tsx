@@ -1,14 +1,14 @@
 import React, {FC, useState} from 'react';
-import {MyModal} from "../myModal/myModal";
+import {MyModal} from "../../components/myModal/myModal";
 import {StyleSheet, Text, TextInput, View} from "react-native";
 import {addExpense, ShortUser} from "../../store/users-slice";
 import {colors, largeFontSize, smallFontSize} from "../../styles/global-styles";
 import {ShowUsersModal} from "../showUsersModal/showUsersModal";
 import {useAppDispatch} from "../../hooks";
 import {v4 as uuid} from 'uuid';
-import {MyButton} from "../myButton/myButton";
+import {MyButton} from "../../components/myButton/myButton";
 import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
-import {ExpenseComment} from "../expenseComment/expenseComment";
+import {ExpenseComment} from "./expenseComment/expenseComment";
 
 type Props = {
   user: ShortUser
@@ -66,6 +66,7 @@ export const AddExpenseModal: FC<Props> = (
           <TextInput style={[styleAddExpModal.inputExp]} keyboardType="numeric" onChangeText={(text)=>onChangeExp(u.id, text)}/>
         </View>
       ))}
+      <ExpenseComment style={{display: displayTitle}} setTitle={setTitle}/>
       <View style={styleAddExpModal.buttons}>
         <MyButton onPress={() => setShowUsers(true)} style={styleAddExpModal.buttonAddUser}>
           <Feather name="user-plus" size={24} color={colors.white} />
@@ -79,7 +80,6 @@ export const AddExpenseModal: FC<Props> = (
       </View>
       <ShowUsersModal title={'Добавить пользователя'} showUsers={showUsers} closeModalUsers={closeModalUsers}
                       eventId={eventId} addUserInModal={addUserInModal} addedUsers={users}/>
-      <ExpenseComment style={{display: displayTitle}}/>
     </MyModal>
   );
 };

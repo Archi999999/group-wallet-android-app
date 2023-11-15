@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {MyModal} from "../myModal/myModal";
+import {MyModal} from "../../components/myModal/myModal";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {ShortUser, User} from "../../store/users-slice";
-import {colors, mediumFontSize} from "../../styles/global-styles";
+import {colors, mediumFontSize, smallFontSize} from "../../styles/global-styles";
 
 type Props = {
   title: string
@@ -40,11 +40,13 @@ export const ShowUsersModal:FC<Props> = (
 
   return (
     <MyModal title={title} modalVisible={showUsers} closeModal={closeModalUsers} >
-      {users.map(u=> (
+      {(users.length > 0)
+        ? users.map(u=> (
         <TouchableOpacity key={u.id} style={styleUsersModal.row} onPress={()=>addUserHandler({name: u.name, id: u.id, exp: 0})}>
           <Text style={styleUsersModal.name}>{u.name}</Text>
         </TouchableOpacity>
-      ))}
+      ))
+      : <Text style={styleUsersModal.text}>Все пользователи добавлены</Text>}
     </MyModal>
   );
 };
@@ -59,5 +61,9 @@ const styleUsersModal = StyleSheet.create({
   name: {
     color: colors.white,
     fontSize: mediumFontSize,
+  },
+  text: {
+    color: colors.white,
+    fontSize: smallFontSize,
   }
 })

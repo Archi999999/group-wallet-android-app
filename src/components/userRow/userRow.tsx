@@ -2,7 +2,8 @@ import React, {FC, useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import {User} from "../../store/users-slice";
 import {stylesUserRow} from "./userRow.styles";
-import {AddExpenseModal} from "../addExpenseModal/addExpenseModal";
+import {AddExpenseModal} from "../../modals/addExpenseModal/addExpenseModal";
+import {DebtsUser} from "../../modals/debtsUser/debtsUser";
 
 type UserRowProps =
   User & {userId: string, eventId: string}
@@ -15,16 +16,13 @@ export const UserRow: FC<UserRowProps> = (
     userId,
     eventId,
   }) => {
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalExpVisible, setModalExpVisible] = useState(false)
+  const [modalDebsVisible, setModalDebsVisible] = useState(false)
   const countExpenses = expenses.map(exp => exp.count)
   const summaExpenses = countExpenses.reduce((a, b) => a + b, 0)
 
   const countDebts = debts.map(el => el.debt)
   const summaDebts = countDebts.reduce((a, b) => a + b, 0)
-
-  const onPressHandler = () => {
-    setModalVisible(true)
-  }
 
   return (
     <View style={[stylesUserRow.row]}>
@@ -33,17 +31,18 @@ export const UserRow: FC<UserRowProps> = (
           {name}
         </Text>
       </View>
-      <TouchableOpacity onPress={onPressHandler} style={[stylesUserRow.cell]}>
+      <TouchableOpacity onPress={()=>setModalExpVisible(true)} style={[stylesUserRow.cell]}>
           <Text style={[stylesUserRow.text]}>
             {summaExpenses}
           </Text>
       </TouchableOpacity>
-      <View style={[stylesUserRow.cell]}>
+      <TouchableOpacity onPress={()=>setModalDebsVisible(true)} style={[stylesUserRow.cell]}>
         <Text style={[stylesUserRow.text]}>
           {summaDebts}
         </Text>
-      </View>
-      <AddExpenseModal modalVisible={modalVisible} closeModal={setModalVisible} eventId={eventId} user={{name, id: userId, exp: 0}}/>
+      </TouchableOpacity>
+      <AddExpenseModal modalVisible={modalExpVisible} closeModal={setModalExpVisible} eventId={eventId} user={{name, id: userId, exp: 0}}/>
+      <DebtsUser closeModal={setModalDebsVisible} modalVisible={modalDebsVisible} debts={debts}/>
     </View>
   );
 };
