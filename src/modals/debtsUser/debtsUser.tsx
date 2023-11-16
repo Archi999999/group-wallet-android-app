@@ -23,17 +23,16 @@ export const DebtsUser: FC<Props> = (
   const debtsList = debts.map(d => {
     if (d.debt !== 0) {
       hasNonZeroDebts = true
+      return (
+        <View key={d.id} style={s.row}>
+          <Text style={s.text}>{transformName(d.name)}</Text>
+          <Text style={s.text}>{d.debt}</Text>
+        </View>)
     }
-    return (
-      <View key={d.id} style={s.row}>
-        <Text style={s.text}>{transformName(d.name)}</Text>
-        <Text style={s.text}>{d.debt}</Text>
-      </View>)
   })
 
   function transformName(name: string) {
-    const vowels = ['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я']; // Гласные буквы кириллицы
-
+    const vowels = ['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я']
     const lastChar = name[name.length - 1].toLowerCase()
     const isVowel = vowels.includes(lastChar)
 
