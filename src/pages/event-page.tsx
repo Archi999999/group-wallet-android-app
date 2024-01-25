@@ -9,7 +9,7 @@ import {useNotification} from "react-native-internal-notification";
 import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
 import {UserRow} from "../components/userRow/userRow";
-import {HeadersRow} from "../components/headersRow/headersRow";
+import {HeaderRow} from "../components/headersRow/headerRow";
 
 export const EventPage = (
   {
@@ -50,7 +50,7 @@ export const EventPage = (
       <View style={[globalStyles.container, styles.container]}>
         <Text style={[styles.h1]}> {route.params.title} </Text>
         <View style={[styles.table]}>
-          <HeadersRow style={users.length===0?{display:'none'}:{}}/>
+          <HeaderRow style={users.length===0?{display:'none'}:{}}/>
           {users.map(u => (
             <UserRow name={u.name} key={u.id} expenses={u.expenses} debts={u.debts} id={u.id} eventId={eventId} userId={u.id}/>
           ))}

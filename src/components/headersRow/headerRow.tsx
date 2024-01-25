@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ViewStyle} from "react-native";
 import {stylesUserRow} from "../userRow/userRow.styles";
 import {colors, smallFontSize} from "../../styles/global-styles";
 
-export const HeadersRow = (props: {style: ViewStyle}) => {
+export const HeaderRow = (props: {style: ViewStyle}) => {
   return (
     <View style={[stylesUserRow.row, stylesHeader.row, props.style]}>
       <View style={[stylesUserRow.cell, stylesHeader.opacityBorder]}>
