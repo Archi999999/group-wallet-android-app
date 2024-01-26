@@ -1,18 +1,21 @@
 import React, {ReactNode} from 'react';
 import {TouchableOpacity, TouchableOpacityProps, StyleSheet} from 'react-native';
-import {colors, mediumFontSize, smallFontSize} from "../../styles/global-styles";
-import { Text } from 'react-native';
+import {mediumFontSize, smallFontSize} from "../../styles/global-styles";
+import {Text} from 'react-native';
+import {colors} from "../../styles/colors";
 
 type MyButtonProps = TouchableOpacityProps & {
-  children: string
+  children: string | ReactNode
 };
 
 export const MyButton: React.FC<MyButtonProps> = ({children, ...props}) => {
   return (
     <TouchableOpacity{...props} style={[s.button, props.style]}>
-      <Text style={s.text}>
-        {children}
-      </Text>
+      {typeof children === 'string' ? (
+        <Text style={s.text}>{children}</Text>
+      ) : (
+        children
+      )}
     </TouchableOpacity>
   );
 };
@@ -22,6 +25,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: 'center',
     height: 50,
+    backgroundColor: colors.button,
     borderStyle: 'solid',
     borderColor: colors.grey,
     borderWidth: 1,
@@ -29,7 +33,7 @@ const s = StyleSheet.create({
     fontSize: mediumFontSize,
     paddingHorizontal: 8,
   },
-    text: {
-      fontSize: smallFontSize
+  text: {
+    fontSize: smallFontSize
   }
 })

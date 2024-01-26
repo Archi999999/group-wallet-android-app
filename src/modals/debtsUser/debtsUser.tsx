@@ -2,7 +2,8 @@ import {MyModal} from "../../components/myModal/myModal";
 import React, {FC} from "react";
 import {Debt} from "../../store/users-slice";
 import {StyleSheet, Text, View} from "react-native";
-import {colors, mediumFontSize} from "../../styles/global-styles";
+import {mediumFontSize} from "../../styles/global-styles";
+import {colors} from "../../styles/colors";
 
 type Props = {
   debts: Debt[]

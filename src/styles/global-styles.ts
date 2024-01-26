@@ -1,4 +1,5 @@
-import {KeyboardAvoidingView, StatusBar, StyleSheet} from "react-native";
+import {StatusBar, StyleSheet} from "react-native";
+import {colors} from "./colors";
 
 export const largeFontSize = 30
 export const mediumFontSize = 25
@@ -7,10 +8,10 @@ export const smallFontSize = 20
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#457945',
+    backgroundColor: colors.background,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight || 0,
+    // justifyContent: 'center',
+    // paddingTop: StatusBar.currentHeight || 0,
     // paddingBottom: 250,
   },
   border: {
@@ -19,23 +20,4 @@ export const globalStyles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 7,
   },
-})
-
-export const colors = {
-  white: '#f5f0f0',
-  grey: '#373f3d',
-  lightGrey: '#7ca491'
-}
-
-export const textInButton = {
-
-}
-
-export const buttonsStyles = StyleSheet.create({
-  background: {
-    backgroundColor: colors.white
-  },
-  text: {
-    fontSize: smallFontSize
-  }
 })

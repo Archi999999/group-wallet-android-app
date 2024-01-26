@@ -4,7 +4,8 @@ import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {ShortUser, User} from "../../store/users-slice";
-import {colors, mediumFontSize, smallFontSize} from "../../styles/global-styles";
+import {mediumFontSize, smallFontSize} from "../../styles/global-styles";
+import {colors} from "../../styles/colors";
 
 type Props = {
   title: string

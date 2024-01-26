@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, TextInput, View, ViewProps, StyleSheet} from "react-native";
-import {colors, mediumFontSize, smallFontSize} from "../../../styles/global-styles";
+import {mediumFontSize, smallFontSize} from "../../../styles/global-styles";
+import {colors} from "../../../styles/colors";
 
 type Props = ViewProps & {
   setTitle: (text:string)=> void

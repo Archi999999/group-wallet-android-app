@@ -2,13 +2,14 @@ import React, {FC, useState} from 'react';
 import {MyModal} from "../../components/myModal/myModal";
 import {StyleSheet, Text, TextInput, View} from "react-native";
 import {addExpense, ShortUser} from "../../store/users-slice";
-import {colors, largeFontSize, smallFontSize} from "../../styles/global-styles";
+import {largeFontSize, smallFontSize} from "../../styles/global-styles";
 import {ShowUsersModal} from "../showUsersModal/showUsersModal";
 import {useAppDispatch} from "../../hooks";
 import {v4 as uuid} from 'uuid';
 import {MyButton} from "../../components/myButton/myButton";
 import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
 import {ExpenseComment} from "./expenseComment/expenseComment";
+import {colors} from "../../styles/colors";
 
 type Props = {
   user: ShortUser
@@ -69,13 +70,13 @@ export const AddExpenseModal: FC<Props> = (
       <ExpenseComment style={{display: displayTitle}} setTitle={setTitle}/>
       <View style={styleAddExpModal.buttons}>
         <MyButton onPress={() => setShowUsers(true)} style={styleAddExpModal.buttonAddUser}>
-          <Feather name="user-plus" size={24} color={colors.white} />
+          <Feather name="user-plus" size={24} color={colors.grey} />
         </MyButton>
         <MyButton onPress={()=>{setDisplayTitle(displayTitle==='flex'? 'none': 'flex')}} style={styleAddExpModal.buttonAddComment}>
-          <MaterialCommunityIcons name="comment-plus-outline" size={24} color={colors.white} />
+          <MaterialCommunityIcons name="comment-plus-outline" size={24} color={colors.grey} />
         </MyButton>
         <MyButton onPress={addExp} style={styleAddExpModal.buttonSave}>
-          <Text style={styleAddExpModal.textSave} >Сохранить</Text>
+          Сохранить
         </MyButton>
       </View>
       <ShowUsersModal title={'Добавить пользователя'} showUsers={showUsers} closeModalUsers={closeModalUsers}

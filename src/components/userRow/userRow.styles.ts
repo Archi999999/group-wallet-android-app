@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native";
-import {mediumFontSize} from "../../styles/global-styles";
+import {smallFontSize} from "../../styles/global-styles";
+import {colors} from "../../styles/colors";
 
 export const stylesUserRow = StyleSheet.create({
   row: {
@@ -14,13 +15,14 @@ export const stylesUserRow = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     paddingVertical: 5,
+    backgroundColor: colors.backgroundSec
   },
   name: {
     alignItems: "baseline",
   },
   text: {
-    color: 'white',
-    fontSize: mediumFontSize,
+    color: colors.text,
+    fontSize: smallFontSize,
   }
 });
 

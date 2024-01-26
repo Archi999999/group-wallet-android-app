@@ -9,8 +9,7 @@ type Props = {
   addNameButton: string
   setShowInput: (value: boolean)=> void
   addItemHandler: (title: string)=>void
-  // перенести в редакс!!!!!!
-  keyboardHeight?: number
+  marginBottom: number
 }
 
 export const AddItemForm: FC<Props> = (
@@ -20,7 +19,7 @@ export const AddItemForm: FC<Props> = (
     saveNameButton,
     setShowInput,
     addItemHandler,
-    keyboardHeight,
+    marginBottom,
   }
 ) => {
   const [value, setValue] = useState('')
@@ -37,13 +36,10 @@ export const AddItemForm: FC<Props> = (
           <TextInput value={value} onChangeText={setValue}
                      style={[globalStyles.border, styles.input]} autoFocus
                      onSubmitEditing={() => addItemHandler(value)}/>
-          <MyButton onPress={() => addItemHandler_(value)}>{saveNameButton}</MyButton>
+          <MyButton onPress={() => addItemHandler_(value)} style={{marginBottom: 20}}>{saveNameButton}</MyButton>
         </>
-        : <MyButton onPress={() => setShowInput(
-          // prevState => !prevState
-          true
-        )}
-                    style={{marginBottom: keyboardHeight}}>
+        : <MyButton onPress={() => setShowInput(true)}
+                    style={{marginBottom: marginBottom + 30}}>
           {addNameButton}
         </MyButton>
       }

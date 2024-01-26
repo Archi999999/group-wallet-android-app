@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View, ViewStyle} from "react-native";
 import {stylesUserRow} from "../userRow/userRow.styles";
-import {colors, smallFontSize} from "../../styles/global-styles";
+import {smallFontSize} from "../../styles/global-styles";
+import {colors} from "../../styles/colors";
 
 export const HeaderRow = (props: {style: ViewStyle}) => {
   return (
     <View style={[stylesUserRow.row, stylesHeader.row, props.style]}>
-      <View style={[stylesUserRow.cell, stylesHeader.opacityBorder]}>
+      <View style={[stylesUserRow.cell, stylesHeader.emptyCell]}>
         <Text style={[stylesUserRow.text]}>
         </Text>
       </View>
@@ -29,17 +30,18 @@ const stylesHeader = StyleSheet.create({
     paddingBottom: 10
   },
   view: {
-    backgroundColor: colors.grey,
+    backgroundColor: colors.primary,
     paddingTop: 0,
     alignItems: 'center',
   },
   text: {
     fontSize: smallFontSize,
-    color: colors.lightGrey,
+    color: colors.text,
     // alignSelf: "center",
     // justifyContent: 'center'
   },
-  opacityBorder: {
-    borderColor: 'rgba(0, 0, 0, 0)'
+  emptyCell: {
+    borderColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: colors.background
   }
 })

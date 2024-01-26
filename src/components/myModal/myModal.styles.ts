@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native";
-import {colors, smallFontSize} from "../../styles/global-styles";
+import {smallFontSize} from "../../styles/global-styles";
+import {colors} from "../../styles/colors";
 
 export const stylesModal = StyleSheet.create({
   modal: {
