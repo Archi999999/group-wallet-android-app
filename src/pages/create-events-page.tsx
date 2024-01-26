@@ -1,38 +1,38 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  Button,
-  FlatList, Keyboard, KeyboardAvoidingView,
-  ListRenderItem, Platform,
+  FlatList,
+  Keyboard,
+  ListRenderItem,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback, View,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import {buttonsStyles, colors, globalStyles, largeFontSize, smallFontSize} from "../styles/global-styles";
+import {globalStyles, largeFontSize} from "../styles/global-styles";
 import {useNotification} from "react-native-internal-notification";
 import {MainProps} from "../types/navigation-types";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import {addEvent, Event} from "../store/events-slice";
 import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
-import {MyButton} from "../components/myButton/myButton";
+import {AddItemForm} from "../shared/addItemForm";
+import {colors} from "../styles/colors";
+import {addKeyboardHeight} from "../store/viewport-slice";
 
 export const CreateEventsPage = ({navigation}: MainProps) => {
   const dispatch = useAppDispatch()
-  const [value, setValue] = useState('')
   const [showInput, setShowInput] = useState(false)
   const notification = useNotification();
   const events = useAppSelector<Event[]>(state => state.events)
-  const [keyboardHeight, setKeyboardHeight] = useState(280);
+  const keyboardHeight = useAppSelector<number>(state => state.viewport.keyboardHeight)
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       (event) => {
-        setKeyboardHeight(event.endCoordinates.height);
+        dispatch(addKeyboardHeight({keyboardHeight: event.endCoordinates.height}))
       }
     );
 
@@ -49,7 +49,7 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
     const id = uuid()
     dispatch(addEvent({title, id, addedDate: new Date().toString()}))
     setShowInput(false)
-    setValue('')
+    // setValue('')
   }
 
   const shortNameEventNotification = useCallback(() => {
@@ -64,7 +64,9 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
   }
 
   const renderItem: ListRenderItem<Event> = ({item}) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EventPage', {eventId: item.id, title: item.title})}>
+    <TouchableOpacity onPress={() => navigation.navigate('EventPage', {eventId: item.id, title: item.title})}
+                      // style={{borderTopColor: colors.lightGrey, borderTopWidth:1}}
+    >
       <Text style={styles.eventName}>{item.title}</Text>
     </TouchableOpacity>
   );
@@ -80,43 +82,32 @@ export const CreateEventsPage = ({navigation}: MainProps) => {
               keyExtractor={event => event.id}
               contentContainerStyle={styles.listContainer}
               style={{width: '100%'}}
+              inverted={true}
             />
           </TouchableWithoutFeedback>
         }
-        {showInput
-          ? <>
-            <TextInput value={value} onChangeText={setValue}
-                       style={[globalStyles.border, styles.input]} autoFocus
-                       onSubmitEditing={() => addEventHandler(value)}/>
-            <MyButton onPress={() => addEventHandler(value)}>Сохранить</MyButton>
-          </>
-          : <MyButton onPress={() => setShowInput(prevState => !prevState)}
-                      style={[buttonsStyles.background, {marginBottom: keyboardHeight }]}>
-            Добавить событие
-          </MyButton>
-        }
+        <AddItemForm showInput={showInput} saveNameButton={'Сохранить'} addNameButton={'Добавить событие'}
+                     setShowInput={setShowInput} addItemHandler={addEventHandler} marginBottom={keyboardHeight}/>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
-    backgroundColor: 'white',
-    width: 200,
-    fontSize: smallFontSize,
-    padding: 8,
-    margin: 10,
-  },
   eventName: {
     fontSize: largeFontSize,
-    color: 'white',
-    marginBottom: 30,
+    color: colors.text,
+    marginBottom: 25,
+    // borderColor: colors.lightGrey,
+    // borderWidth:1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    backgroundColor: colors.backgroundSec,
   },
-  menuEventButton: {
-    fontSize: largeFontSize,
-    color: "white",
-  },
+  // menuEventButton: {
+  //   fontSize: largeFontSize,
+  //   color: "white",
+  // },
   listContainer: {
     alignItems: "center",
   },

@@ -8,7 +8,7 @@ export const colors = {
   secondary: '#f5f4ebff',
   primary: '#C6C8B9',
   accent: '#CDEF84',
-  button: '#e3f3be',
+  button: '#f3fd92',
   // button: '#BCECE4',
   buttonSec: '#CDEF84',
   // highlight: '#0000FF',

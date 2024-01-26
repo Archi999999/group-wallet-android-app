@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
+import {SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View} from "react-native";
 import {globalStyles, mediumFontSize, smallFontSize} from "../styles/global-styles";
 import {EventProps} from "../types/navigation-types";
 import {useAppDispatch, useAppSelector} from "../hooks";
@@ -8,14 +8,15 @@ import {Ionicons} from "@expo/vector-icons";
 import {useNotification} from "react-native-internal-notification";
 import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
-import {UserRow} from "../components/userRow/userRow";
+import {AddItemForm} from "../shared/addItemForm";
+import {colors} from "../styles/colors";
 import {HeaderRow} from "../components/headersRow/headerRow";
+import {UserRow} from "../components/userRow/userRow";
 
 export const EventPage = (
   {
     route
   }: EventProps) => {
-  const [value, setValue] = useState('')
   const [showInput, setShowInput] = useState(false)
   const notification = useNotification();
   const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ export const EventPage = (
   const eventId = route.params.eventId
 
   const users = useAppSelector<User[]>(state => state.users[eventId])
+  const keyboardHeight = useAppSelector<number>(state => state.viewport.keyboardHeight)
 
   const addUserHandler = (name: string) => {
     if (name.length < 3) {
@@ -32,7 +34,6 @@ export const EventPage = (
     const id = uuid()
     dispatch(addUser({name, id, eventId}))
     setShowInput(false)
-    setValue('')
   }
 
   const shortNameEventNotification = useCallback(() => {
@@ -47,25 +48,20 @@ export const EventPage = (
 
   return (
     <TouchableWithoutFeedback onPress={onBlur}>
-      <View style={[globalStyles.container, styles.container]}>
+      <SafeAreaView style={[globalStyles.container, styles.container]}>
         <Text style={[styles.h1]}> {route.params.title} </Text>
         <View style={[styles.table]}>
-          <HeaderRow style={users.length===0?{display:'none'}:{}}/>
+          <HeaderRow style={users.length === 0 ? {display: 'none'} : {}}/>
           {users.map(u => (
-            <UserRow name={u.name} key={u.id} expenses={u.expenses} debts={u.debts} id={u.id} eventId={eventId} userId={u.id}/>
+            <UserRow name={u.name} key={u.id} expenses={u.expenses} debts={u.debts} id={u.id} eventId={eventId}
+                     userId={u.id}/>
           ))}
         </View>
         <View style={styles.addUser}>
-          {showInput
-            ? <>
-              <TextInput value={value} onChangeText={setValue}
-                         style={[globalStyles.border, styles.input]} autoFocus onSubmitEditing={()=>addUserHandler(value)}/>
-              <Button title={'Сохранить'} onPress={() => addUserHandler(value)}/>
-            </>
-            : <Button title={'Добавить участника'} onPress={() => setShowInput(prevState => !prevState)}/>
-          }
+          <AddItemForm showInput={showInput} addNameButton={'Добавить участника'} saveNameButton={'Сохранить'}
+                       setShowInput={setShowInput} addItemHandler={addUserHandler} marginBottom={keyboardHeight}/>
         </View>
-      </View>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   h1: {
-    color: 'white',
+    color: colors.text,
     fontSize: mediumFontSize,
     paddingTop: 20,
     paddingBottom: 20,
